@@ -7,6 +7,8 @@
 
 using namespace std;
 
+// NOTE: All functionality except for "Impossible" are fully defined
+
 /**************************************
 * Current Bug: on the computer goes first mode, game is ending pre-maturely
 **************************************/
