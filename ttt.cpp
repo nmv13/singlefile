@@ -366,7 +366,7 @@ void game(int mode, int key[9], char board[9], int difficulty, int turn)
 				go = false;
 				display(board);
 			}
-			else if (turnF >= 5)
+			else if (turnF >= 6)
 			{
 				// system("clear");
 				cout << "It's A Tie!\n";
@@ -393,6 +393,7 @@ void game(int mode, int key[9], char board[9], int difficulty, int turn)
 			while (!good)
 			{
 				// Ask for move from player 2
+				cout << turnF << endl;
 				cout << "Player O, make your move: ";
 				cin  >> p2;
 
@@ -409,8 +410,17 @@ void game(int mode, int key[9], char board[9], int difficulty, int turn)
 			if (turnF >= 3 && check(board, 'O') && go)
 			{
 				// system("clear");
+				cout << turnF << endl;
 				cout << "Player O Wins!";
 				end = true;
+				display(board);
+			}
+			else if (turnF >= 6)
+			{
+				// system("clear");
+				cout << "It's A Tie!\n";
+				end = true;
+				go = false;
 				display(board);
 			}
 			else if (go)
@@ -432,7 +442,6 @@ void game(int mode, int key[9], char board[9], int difficulty, int turn)
 				display(board);
 			}
 		}
-		turnF++;
 	} while (!end);
 }
 
