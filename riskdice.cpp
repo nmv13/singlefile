@@ -34,7 +34,7 @@ int main()
 	char ans; // The user answer if it's single mode
 
 	// Prompt user, which mode they want
-	cout << "What mode to you want?\n\n   1: Normal\n   2: Blitz\n\nSelect: ";
+	cout << "What mode do you want?\n\n   1: Normal\n   2: Blitz\n\nSelect: ";
 	cin  >> mode;
 
 	// Prompt the user for number of troops attacking
@@ -46,9 +46,9 @@ int main()
 	cin  >> numD;
 
 	// Prompt the Attacker for desired threshhold if count is high and close
-	if (numA > 50 && ((numA - numD) <= 20))
+	if ((numA > 50 && ((numA - numD) <= 20)) && mode == 2)
 	{
-		cout << "Attacking threshhold (" << (numA - 50) << " troops or less): ";
+		cout << "Minimal troop(s) ceasefire threshhold (1 - " << (numA - 50) << "): ";
 		cin  >> th;
 	}
 	else
@@ -80,7 +80,7 @@ int main()
 			}
 			else
 			{
-				cout << "\nEnter 'a' to continue attacking, 'c' to cease fire: ";
+				cout << "\nEnter 'a' to continue attacking, 'c' to ceasefire: ";
 				cin  >> ans;
 			}
 
@@ -97,7 +97,7 @@ int main()
   	srand((unsigned) time(0));
   	do
   	{		
-		// Attacker has a max of 3 for 3+ people
+		// Attacker has a max of 3 for 4+ people
 		dieA = numDie(numA, 'A');
 
 		// Defener has a max of 2 die for 2+ people
@@ -460,5 +460,5 @@ void result(int numA, int numD, int th)
   	else if (numA == 1)
   			cout << "\nAttacker Lost!\nAttacker has " << numA << " troop(s) remaining\nDefender has " << numD << " troop(s) remaining\n";
   	else
-  			cout << "\nAttacker Cease Fire!\nAttacker has " << numA << " troop(s) remaining\nDefender has " << numD << " troop(s) remaining\n";
+  			cout << "\nAttacker Ceasefire!\nAttacker has " << numA << " troop(s) remaining\nDefender has " << numD << " troop(s) remaining\n";
 }
