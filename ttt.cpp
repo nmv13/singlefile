@@ -7,7 +7,7 @@
 
 using namespace std;
 
-// NOTE: All functionality except for "Impossible" are fully defined
+// NOTE: All functionality except for "Impossible->First" are fully defined
 
 /**************************************
 * Current Bug: on the computer goes first mode, game is ending pre-maturely
@@ -15,7 +15,7 @@ using namespace std;
 
 void game(int mode, int key[9], char board[9], int difficulty, int turn);
 char find(int a, int b, int c, vector<int> p, char board[9], char xo);
-char gameVScpu(char board[9], int turnF, int key[9], int difficulty);
+char gameVScpu(char board[9], int turnF, int key[9], int difficulty, int turn);
 bool check(char board[9], char p);
 template <class T> void display(T arr);
 
@@ -102,11 +102,11 @@ char find(int a, int b, int c, vector<int> p, char board[9], char xo)
 	return board[9];
 }
 
-char gameVScpu(char board[9], int turnF, int key[9], int difficulty)
+char gameVScpu(char board[9], int turnF, int key[9], int difficulty, int turn)
 {
-	int n = 0;
+	int n = 0; // Random number variable for easy level
 
-	if (difficulty == 1)
+	if (difficulty == 1) // Easy
 	{
 		while (n < 10)
 		{
@@ -120,7 +120,7 @@ char gameVScpu(char board[9], int turnF, int key[9], int difficulty)
 			}
 		}
 	}
-	else if (difficulty == 2)
+	else if (difficulty == 2) //Standard
 	{
 		vector<int> x; // X
 		vector<int> o; // O
@@ -289,40 +289,230 @@ char gameVScpu(char board[9], int turnF, int key[9], int difficulty)
 			}
 		}
 	}
-	else
+	else if (difficulty == 3) // Impossible
 	{
-		if (turnF == 2)
+		sleep(1); // Pause computer for 1 second for realistic response
+		if (turn == 2) // User goes second
 		{
-			if (board[4] == 32)
-			{
-				board[4] = 'O';
-			}
-			else
-			{
+			if (turnF == 2)
 				board[6] = 'O';
+			else if (turnF == 3)
+			{
+				if (board[0] == 'X')
+					board[8] = 'O';
+				else if (board[1] == 'X')
+					board[0] = 'O';
+				else if (board[2] == 'X')
+					board[0] = 'O';
+				else if (board[3] == 'X')
+					board[8] = 'O';
+				else if (board[4] == 'X')
+					board[2] = 'O';
+				else if (board[5] == 'X')
+					board[8] = 'O';
+				else if (board[7] == 'X')
+					board[0] = 'O';
+				else
+					board[0] = 'O';
+			}
+			else if (turnF == 4)
+			{
+				if (board[8] == 'O')
+				{
+					if (board[3] == 'X')
+					{
+						if (board[7] == 32)
+							board[7] = 'O';
+						else
+							board[2] = 'O';
+					}
+					else if (board[0] == 'X')
+					{
+						if (board[7] == 32)
+							board[7] = 'O';
+						else
+							board[2] = 'O';
+					}
+					else if (board[2] == 'X')
+					{
+						if (board[7] == 32)
+							board[7] = 'O';
+						else
+							board[0] = 'O';
+					}
+					else if (board[5] == 'X')
+					{
+						if (board[7] == 32)
+							board[7] = 'O';
+						else
+							board[0] = 'O';
+					}
+				}
+				else if (board[0] == 'O')
+				{
+					if (board[1] == 'X')
+					{
+						if (board[3] == 32)
+							board[3] = 'O';
+						else
+							board[8] = 'O';
+					}
+					else if (board[8] == 'X')
+					{
+						if (board[3] == 32)
+							board[3] = 'O';
+						else
+							board[2] = 'O';
+					}
+					else if (board[7] == 'X')
+					{
+						if (board[3] == 32)
+							board[3] = 'O';
+						else
+							board[2] = 'O';
+					}
+				}
+				else if (board[2] == 'O')
+				{
+					if (board[0] == 'X')
+						board[8] = 'O';
+					else if (board[8] == 'X')
+						board[0] = 'O';
+					else if (board[1] == 'X')
+						board[7] = 'O';
+					else if (board[7] == 'X')
+						board[1] = 'O';
+					else if (board[3] == 'X')
+						board[5] = 'O';
+					else
+						board[3] = 'O';
+				}
+			}
+			else if (turnF == 5)
+			{
+				if (board[2] == 'O' && board[6] == 'O' && board[8] == 'O')
+				{
+					if (board[4] == 32)
+						board[4] = 'O';
+					else
+						board[5] = 'O';
+				}
+				else if (board[0] == 'O' && board[6] == 'O' && board[8] == 'O')
+				{
+					if (board[4] == 32)
+						board[4] = 'O';
+					else if (board[3] == 32)
+						board[3] = 'O';
+					else
+						board[7] = 'O';
+				}
+				else if (board[0] == 'O' && board[6] == 'O' && board[8] == 'O')
+				{
+					if (board[4] == 32)
+						board[4] = 'O';
+					else
+						board[1] = 'O';
+				}
+				else
+				{
+					if (board[2] == 'O' && board[6] == 'O' && board[8] == 'O')
+					{
+						if (board[5] == 32)
+							board[5] = 'O';
+						else
+							board[7] = 'O';
+					}
+					else if (board[0] == 'O' && board[2] == 'O' && board[6] == 'O')
+					{
+						if (board[1] == 32)
+							board[1] = 'O';
+						else
+							board[3] = 'O';
+					}
+					else if (board[2] == 'O' && board[6] == 'O' && board[7] == 'O')
+					{
+						if (board[8] == 32)
+							board[8] = 'O';
+						else
+							board[0] = 'O';
+					}
+					else if (board[1] == 'O' && board[2] == 'O' && board[6] == 'O')
+					{
+						if (board[0] == 32)
+							board[0] = 'O';
+						else
+							board[8] = 'O';
+					}
+					else if (board[2] == 'O' && board[5] == 'O' && board[6] == 'O')
+					{
+						if (board[8] == 32)
+							board[8] = 'O';
+						else
+							board[0] = 'O';
+					}
+					else if (board[2] == 'O' && board[3] == 'O' && board[6] == 'O')
+					{
+						if (board[0] == 32)
+							board[0] = 'O';
+						else
+							board[8] = 'O';
+					}
+				}
+			}
+			else if (turnF == 6)
+			{
+				if (board[0] == 'O' && board[2] == 'O' && board[6] == 'O' && board[7] == 'O')
+				{
+					if (board[3] == 32)
+						board[3] = 'O';
+					else
+						board[5] = 'O';
+				}
+				else if (board[0] == 'O' && board[2] == 'O' && board[5] == 'O' && board[6] == 'O')
+				{
+					if (board[1] == 32)
+						board[1] = 'O';
+					else
+						board[7] = 'O';
+				}
+				else if (board[2] == 'O' && board[3] == 'O' && board[6] == 'O' && board[8] == 'O')
+				{
+					if (board[7] == 32)
+						board[7] = 'O';
+					else
+						board[1] = 'O';
+				}
+				else if (board[1] == 'O' && board[2] == 'O' && board[6] == 'O' && board[8] == 'O')
+				{
+					if (board[5] == 32)
+						board[5] = 'O';
+					else
+						board[3] = 'O';
+				}
 			}
 		}
-		else if (turnF == 3 && board[6] == 'O')
+		else if (turn == 1) // User goes first
 		{
-			if (board[0] == 'X')
-				board[8] = 'O';
-			else if (board[8] == 'X')
-				board[0] = 'O';
-			else if (board[1] == 'X')
-				board[7] = 'O';
-			else if (board[7] == 'X')
-				board[1] = 'O';
-			else if (board[3] == 'X')
-				board[5] = 'O';
-			else if (board[5] == 'X')
-				board[3] = 'O';
-			else
-				board[8] = 'O';
+			if (turnF == 2)
+			{
+				if (board[4] == 32)
+					board[4] = 'O';
+				else
+					board[6] = 'O';
+			}
+			else if (turnF == 3)
+			{
+				// In progress
+			}
+			else if (turnF == 4)
+			{
+				// In progress
+			}
+			else if (turnF == 5)
+			{
+				// In progress
+			}
 		}
-		else if (turnF == 3 && board[4] == 'O')
-			if (board[1] == 'X' || board[3] == 'X' || board[5] == 'X' || board[7] == 'X')
-				board[6] = 'O';
-			// else if (board[] == 'X')
 	}
 
 	display(key);
@@ -339,10 +529,11 @@ void game(int mode, int key[9], char board[9], int difficulty, int turn)
 	bool good = false;
 	bool go = true;
 	int turnF = 1;
+	int turnCounter = turn;
 
 	do
 	{
-		if (turn == 1)
+		if (turnCounter == 1)
 		{
 			do
 			{
@@ -386,7 +577,7 @@ void game(int mode, int key[9], char board[9], int difficulty, int turn)
 		}
 		else
 		{
-			turn = 1;
+			turnCounter = 1;
 			turnF++;
 		}
 
@@ -434,7 +625,7 @@ void game(int mode, int key[9], char board[9], int difficulty, int turn)
 		}
 		else if (go)
 		{
-			board[9] = gameVScpu(board, turnF, key, difficulty);
+			board[9] = gameVScpu(board, turnF, key, difficulty, turn);
 
 			if (turnF >= 3 && check(board, 'O') && go)
 			{
