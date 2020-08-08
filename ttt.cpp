@@ -7,9 +7,10 @@
 
 using namespace std;
 
-/**************************************
-* Current Bugs: Refining "Impossible->First" mode
-**************************************/
+/******************************************************************
+* Current Bugs : Tie functionality on (2) cpu mode
+* Other updates: Needs condensing, simplifying, and increase in QA 
+******************************************************************/
 
 void game(int mode, int key[9], char board[9], int difficulty, int turn);
 char find(int a, int b, int c, vector<int> p, char board[9], char xo);
@@ -576,7 +577,71 @@ char gameVScpu(char board[9], int turnF, int key[9], int difficulty, int turn)
 			}
 			else if (turnF == 4)
 			{
-				if (board[3] == 'X' && board[6] == 'X' && board[8] == 'X')
+				if (board[4] == 'X') // Only scenarios where O is not on 5
+				{
+					if (board[3] == 'X' && board[5] == 'O' && board[6] == 'O')
+					{
+						if (board[0] == 'X')
+							board[8] = 'O';
+						else if (board[1] == 'X')
+							board[7] = 'O';
+						else if (board[2] == 'X')
+							board[8] = 'O';
+						else if (board[7] = 'X')
+							board[1] = 'O';
+						else
+							board[0] = 'O';
+					}
+					else if (board[0] == 'X' && board[6] == 'O' && board[8] == 'O')
+					{
+						if (board[7] == 32)
+							board[7] = 'O';
+						else
+							board[1] = 'O';
+					}
+					else if (board[1] == 'X' && board[6] == 'O' && board[7] == 'O')
+					{
+						if (board[8] == 32)
+							board[8] = 'O';
+						else
+							board[0] = 'O';
+					}
+					else if (board[2] == 'X' && board[6] == 'O' && board[8] == 'O')
+					{
+						if (board[7] == 32)
+							board[7] = 'O';
+						else
+							board[1] = 'O';
+					}
+					else if (board[3] == 'O' && board[5] == 'X' && board[6] == 'O')
+					{
+						if (board[0] == 32)
+							board[0] = 'O';
+						else
+							board[8] = 'O';
+					}
+					else if (board[0] == 'O' && board[6] == 'O' && board[8] == 'X')
+					{
+						if (board[3] == 32)
+							board[3] = 'O';
+						else
+							board[5] = 'O';
+					}
+					else
+					{
+						if (board[3] == 'X')
+							board[5] = 'O';
+						else if (board[0] == 'X')
+							board[8] = 'O';
+						else if (board[2] == 'X')
+							board[0] = 'O';
+						else if (board[5] == 'X')
+							board[3] = 'O';
+						else
+							board[0] = 'O';
+					}
+				}
+				else if (board[3] == 'X' && board[6] == 'X' && board[8] == 'X')
 					board[7] = 'O';
 				else if (board[0] == 'X' && board[6] == 'X' && board[5] == 'X')
 					board[7] = 'O';
@@ -635,198 +700,306 @@ char gameVScpu(char board[9], int turnF, int key[9], int difficulty, int turn)
 			}
 			else if (turnF == 5)
 			{
-				if (board[3] == 'X' && board[6] == 'X' && board[8] == 'X')
+				if (board[4] == 'X') // Only scenario where O is not in the middle
 				{
-					if (board[1] == 'X')
+					if (board[1] == 'O' && board[3] == 'X' && board[4] == 'X' && board[5] == 'O' && board[6] == 'O' && board[7] == 'X')
+					{
+						if (board[0] == 'X')
+							board[8] = 'O';
+						else
+							board[0] = 'O';
+					}
+					else if (board[0] == 'O' && board[3] == 'X' && board[4] == 'X' && board[5] == 'O' && board[6] == 'O' && board[8] == 'X')
+					{
+						if (board[1] == 'X')
+							board[7] = 'O';
+						else
+							board[1] = 'O';
+					}
+					else if (board[2] == 'X' && board[3] == 'X' && board[4] == 'X' && board[5] == 'O' && board[6] == 'O' && board[8] == 'O')
+					{
+						if (board[7] == 'X')
+							board[1] = 'O';
+						else
+							board[7] = 'O';
+					}
+					else if (board[1] == 'X' && board[3] == 'X' && board[4] == 'X' && board[5] == 'O' && board[6] == 'O' && board[7] == 'O')
+					{
+						if (board[8] == 'X')
+							board[0] = 'O';
+						else
+							board[8] = 'O';
+					}
+					else if (board[0] == 'X' && board[3] == 'X' && board[4] == 'X' && board[5] == 'O' && board[6] == 'O' && board[8] == 'O')
+					{
+						if (board[2] == 'X')
+							board[7] = 'O';
+						else
+							board[2] = 'O';
+					}
+					else if (board[0] == 'X' && board[1] == 'O' && board[4] == 'X' && board[6] == 'O' && board[7] == 'X' && board[8] == 'O')
+					{
+						if (board[5] == 'X')
+							board[3] = 'O';
+						else
+							board[5] = 'O';
+					}
+					else if (board[0] == 'O' && board[1] == 'X' && board[4] == 'X' && board[6] == 'O' && board[7] == 'O' && board[8] == 'X')
+					{
+						if (board[3] == 'X')
+							board[5] = 'O';
+						else
+							board[3] = 'O';
+					}
+					else if (board[1] == 'O' && board[2] == 'X' && board[4] == 'X' && board[6] == 'O' && board[7] == 'X' && board[8] == 'O')
+					{
+						if (board[3] == 'X')
+							board[5] = 'O';
+						else
+							board[3] = 'O';
+					}
+					else if (board[0] == 'X' && board[3] == 'O' && board[4] == 'X' && board[5] == 'X' && board[6] == 'O' && board[8] == 'O')
+					{
+						if (board[7] == 'X')
+							board[1] = 'O';
+						else
+							board[7] = 'O';
+					}
+					else if (board[0] == 'O' && board[3] == 'X' && board[4] == 'X' && board[5] == 'O' && board[6] == 'O' && board[8] == 'X')
+					{
+						if (board[1] == 'X')
+							board[7] = 'O';
+						else
+							board[1] = 'O';
+					}
+					else if (board[1] == 'O' && board[3] == 'X' && board[4] == 'X' && board[5] == 'O' && board[6] == 'O' && board[7] == 'X')
+					{
+						if (board[8] == 'X')
+							board[0] = 'O';
+						else
+							board[8] = 'O';
+					}
+					else if (board[0] == 'O' && board[1] == 'O' && board[4] == 'X' && board[6] == 'O' && board[7] == 'X' && board[8] == 'X')
+					{
+						if (board[3] == 'X')
+							board[5] = 'O';
+						else
+							board[3] = 'O';
+					}
+					else if (board[1] == 'O' && board[3] == 'O' && board[4] == 'X' && board[5] == 'X' && board[6] == 'O' && board[7] == 'X')
+					{
+						if (board[0] == 'X')
+							board[8] = 'O';
+						else
+							board[0] = 'O';
+					}
+					else if (board[0] == 'O' && board[1] == 'O' && board[2] == 'X' && board[4] == 'X' && board[6] == 'O' && board[7] == 'X')
+					{
+						if (board[3] == 'X')
+							board[5] = 'O';
+						else
+							board[3] = 'O';
+					}
+					else if (board[0] == 'X' && board[1] == 'O' && board[4] == 'X' && board[6] == 'O' && board[7] == 'X' && board[8] == 'O')
+					{
+						if (board[3] == 'X')
+							board[5] = 'O';
+						else
+							board[3] = 'O';
+					}
+				}
+				else if (board[0] == 'O' && board[3] == 'X' && board[4] == 'O' && board[6] == 'X' && board[7] == 'O' && board[8] == 'X')
+				{
+					if (board[1] == 'X') // A1
 						board[5] = 'O';
 					else
 						board[1] = 'O';
 				}
-				else if (board[0] == 'X' && board[6] == 'X' && board[5] == 'X')
+				else if (board[0] == 'X' && board[3] == 'O' && board[4] == 'O' && board[5] == 'X' && board[6] == 'X' && board[7] == 'O')
 				{
-					if (board[1] == 'X') // ERROR
+					if (board[1] == 'X') // A2
 						board[2] = 'O';
 					else
 						board[1] = 'O';
 				}
-				else if (board[1] == 'X' && board[6] == 'X' && board[8] == 'X')
+				else if (board[0] == 'O' && board[1] == 'X' && board[4] == 'O' && board[6] == 'X' && board[7] == 'O' && board[8] == 'X')
 				{
-					if (board[5] == 'X')
+					if (board[5] == 'X')// A3
 						board[2] = 'O';
 					else
 						board[5] = 'O';
 				}
-				else if (board[2] == 'X' && board[6] == 'X' && board[5] == 'X')
+				else if (board[2] == 'X' && board[3] == 'O' && board[4] == 'O' && board[5] == 'X' && board[6] == 'X' && board[8] == 'O')
 				{
-					if (board[0] == 'X')
+					if (board[0] == 'X') // A4
 						board[1] = 'O';
 					else
 						board[0] = 'O';
 				}
-				else if (board[0] == 'X' && board[6] == 'X' && board[5] == 'X')
+				else if (board[0] == 'X' && board[3] == 'O' && board[4] == 'O' && board[5] == 'X' && board[6] == 'X' && board[8] == 'O')
 				{
-					if (board[1] == 'X')
+					if (board[1] == 'X') // A5
 						board[2] = 'O';
 					else
 						board[1] = 'O';
 				}
-				else if (board[1] == 'X' && board[6] == 'X' && board[8] == 'X')
+				else if (board[1] == 'X' && board[4] == 'O' && board[5] == 'O' && board[6] == 'X' && board[7] == 'O' && board[8] == 'X')
 				{
-					if (board[3] == 'X')
+					if (board[3] == 'X') // A6
 						board[0] = 'O';
 					else
 						board[3] = 'O';
 				}
-				else if (board[0] == 'X' && board[6] == 'X' && board[7] == 'X')
+				else if (board[0] == 'X' && board[3] == 'O' && board[4] == 'O' && board[6] == 'X' && board[7] == 'X' && board[8] == 'O')
 				{
-					if (board[5] == 'X')
+					if (board[5] == 'X') // A7
 						board[1] = 'O';
 					else
 						board[5] = 'O';
 				}
-				else if (board[0] == 'X' && board[2] == 'X' && board[3] == 'X')
+				else if (board[0] == 'X' && board[1] == 'O' && board[2] == 'X' && board[3] == 'X' && board[4] == 'O' && board[6] == 'O')
 				{
-					if (board[7] == 'X')
+					if (board[7] == 'X') // B1
 						board[5] = 'O';
 					else
 						board[7] = 'O';
 				}
-				else if (board[1] == 'X' && board[3] == 'X' && board[8] == 'X')
+				else if (board[0] == 'O' && board[1] == 'X' && board[3] == 'X' && board[4] == 'O' && board[6] == 'O' && board[8] == 'X')
 				{
-					if (board[2] == 'X')
+					if (board[2] == 'X') // B2
 						board[5] = 'O';
 					else
 						board[2] = 'O';
 				}
-				else if (board[1] == 'X' && board[2] == 'X' && board[3] == 'X')
+				else if (board[0] == 'O' && board[1] == 'X' && board[2] == 'X' && board[3] == 'X' && board[4] == 'O' && board[7] == 'O')
 				{
-					if (board[8] == 'X')
+					if (board[8] == 'X') // B3
 						board[5] = 'O';
 					else
 						board[8] = 'O';
 				}
-				else if (board[1] == 'X' && board[3] == 'X' && board[5] == 'X')
+				else if (board[1] == 'X' && board[3] == 'X' && board[4] == 'O' && board[5] == 'X' && board[7] == 'O' && board[8] == 'O')
 				{
-					if (board[0] == 'X')
+					if (board[0] == 'X') // B4
 						board[6] = 'O';
 					else
 						board[0] = 'O';
 				}
-				else if (board[3] == 'X' && board[7] == 'X' && board[8] == 'X')
+				else if (board[1] == 'O' && board[3] == 'X' && board[4] == 'O' && board[6] == 'O' && board[7] == 'X' && board[8] == 'X')
 				{
-					if (board[2] == 'X')
+					if (board[2] == 'X') // B5
 						board[5] = 'O';
 					else
 						board[2] = 'O';
 				}
-				else if (board[2] == 'X' && board[3] == 'X' && board[7] == 'X')
+				else if (board[2] == 'X' && board[3] == 'X' && board[4] == 'O' && board[6] == 'O' && board[7] == 'X' && board[8] == 'O')
 				{
-					if (board[0] == 'X')
+					if (board[0] == 'X') // B6
 						board[1] = 'O';
 					else
 						board[0] = 'O';
 				}
-				else if (board[0] == 'X' && board[1] == 'X' && board[6] == 'X')
+				else if (board[0] == 'X' && board[1] == 'X' && board[2] == 'O' && board[3] == 'O' && board[4] == 'O' && board[6] == 'X')
 				{
-					if (board[5] == 'X') // ERROR
+					if (board[5] == 'X') // B7
 						board[7] = 'O';
 					else
 						board[5] = 'O';
 				}
-				else if (board[0] == 'X' && board[2] == 'X' && board[7] == 'X')
+				else if (board[0] == 'X' && board[1] == 'O' && board[2] == 'X' && board[4] == 'O' && board[5] == 'O' && board[7] == 'X')
 				{
-					if (board[3] == 'X')
+					if (board[3] == 'X') // C1
 						board[6] = 'O';
 					else
 						board[3] = 'O';
 				}
-				else if (board[0] == 'X' && board[1] == 'X' && board[5] == 'X')
+				else if (board[0] == 'X' && board[1] == 'X' && board[2] == 'O' && board[4] == 'O' && board[5] == 'X' && board[7] == 'O')
 				{
-					if (board[6] == 'X')
+					if (board[6] == 'X') // C2
 						board[3] = 'O';
 					else
 						board[6] = 'O';
 				}
-				else if (board[0] == 'X' && board[7] == 'X' && board[8] == 'X')
+				else if (board[0] == 'X' && board[1] == 'O' && board[4] == 'O' && board[6] == 'O' && board[7] == 'X' && board[8] == 'X')
 				{
-					if (board[2] == 'X')
+					if (board[2] == 'X') // C3
 						board[5] = 'O';
 					else
 						board[2] = 'O';
 				}
-				else if (board[0] == 'X' && board[3] == 'X' && board[7] == 'X')
+				else if (board[0] == 'X' && board[3] == 'X' && board[4] == 'O' && board[5] == 'O' && board[6] == 'O' && board[7] == 'X')
 				{
-					if (board[2] == 'X')
+					if (board[2] == 'X') // C4
 						board[1] = 'O';
 					else
 						board[2] = 'O';
 				}
-				else if (board[1] == 'X' && board[2] == 'X' && board[8] == 'X')
+				else if (board[0] == 'O' && board[1] == 'X' && board[2] == 'X' && board[4] == 'O' && board[5] == 'O' && board[8] == 'X')
 				{
-					if (board[3] == 'X')
+					if (board[3] == 'X') // C5
 						board[7] = 'O';
 					else
 						board[3] = 'O';
 				}
-				else if (board[1] == 'X' && board[5] == 'X' && board[6] == 'X')
+				else if (board[1] == 'X' && board[2] == 'O' && board[4] == 'O' && board[5] == 'X' && board[6] == 'X' && board[8] == 'O')
 				{
-					if (board[0] == 'X')
+					if (board[0] == 'X') // C6
 						board[3] = 'O';
 					else
 						board[0] = 'O';
 				}
-				else if (board[1] == 'X' && board[6] == 'X' && board[8] == 'X')
+				else if (board[1] == 'X' && board[2] == 'O' && board[4] == 'O' && board[6] == 'X' && board[7] == 'O' && board[8] == 'X')
 				{
-					if (board[3] == 'X')
+					if (board[3] == 'X') // C7
 						board[0] = 'O';
 					else
 						board[3] = 'O';
 				}
-				else if (board[1] == 'X' && board[3] == 'X' && board[7] == 'X')
+				else if (board[1] == 'X' && board[3] == 'X' && board[4] == 'O' && board[5] == 'O' && board[7] == 'X' && board[8] == 'O')
 				{
-					if (board[0] == 'X')
+					if (board[0] == 'X') // D1
 						board[2] = 'O';
 					else
 						board[0] = 'O';
 				}
-				else if (board[0] == 'X' && board[2] == 'X' && board[5] == 'X')
+				else if (board[0] == 'X' && board[1] == 'O' && board[2] == 'X' && board[4] == 'O' && board[5] == 'X' && board[8] == 'O')
 				{
-					if (board[7] == 'X')
+					if (board[7] == 'X') // D2
 						board[3] = 'O';
 					else
 						board[7] = 'O';
 				}
-				else if (board[2] == 'X' && board[3] == 'X' && board[8] == 'X')
+				else if (board[2] == 'X' && board[3] == 'X' && board[4] == 'O' && board[5] == 'O' && board[7] == 'O' && board[8] == 'X')
 				{
-					if (board[1] == 'X')
+					if (board[1] == 'X') // D3
 						board[0] = 'O';
 					else
 						board[1] = 'O';
 				}
-				else if (board[0] == 'X' && board[2] == 'X' && board[7] == 'X')
+				else if (board[0] == 'X' && board[1] == 'O' && board[2] == 'X' && board[4] == 'O' && board[7] == 'X' && board[8] == 'O')
 				{
-					if (board[3] == 'X')
+					if (board[3] == 'X') // D4
 						board[6] = 'O';
 					else
 						board[3] = 'O';
 				}
-				else if (board[5] == 'X' && board[6] == 'X' && board[8] == 'X')
+				else if (board[2] == 'O' && board[4] == 'O' && board[5] == 'X' && board[6] == 'X' && board[7] == 'O' && board[8] == 'X')
 				{
-					if (board[1] == 'X')
+					if (board[1] == 'X') // D5
 						board[3] = 'O';
 					else
 						board[1] = 'O';
 				}
-				else if (board[0] == 'X' && board[5] == 'X' && board[7] == 'X')
+				else if (board[0] == 'X' && board[2] == 'O' && board[4] == 'O' && board[5] == 'X' && board[7] == 'X' && board[8] == 'O')
 				{
-					if (board[6] == 'X')
+					if (board[6] == 'X') // D6
 						board[3] = 'O';
 					else
 						board[6] = 'O';
 				}
-				else if (board[2] == 'X' && board[7] == 'X' && board[8] == 'X')
+				else if (board[2] == 'X' && board[4] == 'O' && board[5] == 'O' && board[6] == 'O' && board[7] == 'X' && board[8] == 'X')
 				{
-					if (board[3] == 'X')
+					if (board[3] == 'X') // D7
 						board[1] = 'O';
 					else
 						board[3] = 'O';
