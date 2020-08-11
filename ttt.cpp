@@ -4,15 +4,15 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <vector>
+#include <string>
 
 using namespace std;
 
 /******************************************************************
-* Current Bugs : Tie functionality on (2) cpu mode
-* Other updates: Needs condensing, simplifying, and increase in QA 
+* Updates needed: Condensing, simplifying, and increase in QA 
 ******************************************************************/
 
-void game(int mode, int key[9], char board[9], int difficulty, int turn);
+void game(int mode, int key[9], char board[9], int difficulty, int turn, string message);
 char find(int a, int b, int c, vector<int> p, char board[9], char xo);
 char gameVScpu(char board[9], int turnF, int key[9], int difficulty, int turn);
 bool check(char board[9], char p);
@@ -26,6 +26,7 @@ int main()
 	int difficulty;
 	int turn;
 	bool ans;
+	int go = false;
 	
 	do
 	{
@@ -35,22 +36,78 @@ int main()
 		// Create array for playing board
 		char board[9] = {32, 32, 32, 32, 32, 32, 32, 32, 32};
 
+		cout << "Welcome!";
+		string message = "\n\n\nGame Setting: ";
+		do
+		{
+			cout << "\n\n   1: 2-Person Player\n   2: Computer Player\n\nPlease choose mode: ";
+			cin  >> mode;
 
-		cout << "Welcome!\n\n   1: 2-Person Player\n   2: Computer Player\n\nPlease choose mode: ";
-		cin  >> mode;
+			if (mode == 1 || mode == 2)
+				go = true;
+			else
+			{
+				cin.clear(); 
+    			cin.ignore(16, '\n');
+    			system("clear");
+				cout << "\nError: Please enter (1 or 2)\n";
+			}
+		} while (go == false);
+
+		if (mode == 1)
+			message += "2-Person Player";
+		else
+			message += "User vs Computer - Difficulty: ";
 
 		if (mode == 2)
 		{
-			cout << "Please choose a difficulty:\n\n   1: Easy\n   2: Standard\n   3: Impossible\n\nDifficulty: ";
-			cin  >> difficulty; 
+			go = false;
+			do
+			{
+				cout << "Please choose a difficulty:\n\n   1: Easy\n   2: Standard\n   3: Impossible\n\nDifficulty: ";
+				cin  >> difficulty;
 
-			cout << "Choose your turn:\n\n   1: First\n   2: Second\n\nPreference: ";
-			cin  >> turn;
+				if (difficulty == 1 || difficulty == 2 || difficulty == 3)
+					go = true;
+				else
+				{
+					cin.clear(); 
+    				cin.ignore(16, '\n');
+    				system("clear");
+					cout << "\nError: Please enter (1, 2, or 3)\n";
+				}
+
+			} while (go == false);
+
+			if (difficulty == 1)
+				message += "Easy ";
+			else if (difficulty == 2)
+				message += "Standard\n\n\n";
+			else
+				message += "Impossible\n\n\n";
+
+			go = false;
+			do
+			{
+				cout << "Choose your turn:\n\n   1: First\n   2: Second\n\nPreference: ";
+				cin  >> turn;
+
+				if (turn == 1 || turn == 2)
+					go = true;
+				else
+				{
+					cin.clear(); 
+    				cin.ignore(16, '\n');
+    				system("clear");
+					cout << "\nError: Please enter (1 or 2)\n";
+				}
+			} while (go == false);
 		}
 
 		display(key);
+		cout << message;
 		display(board);
-		game(mode, key, board, difficulty, turn);
+		game(mode, key, board, difficulty, turn, message);
 
 		cout << "Enter 0 to quit, 1 to keep playing: ";
 		cin  >> ans;
@@ -101,7 +158,7 @@ char find(int a, int b, int c, vector<int> p, char board[9], char xo)
 	return board[9];
 }
 
-char gameVScpu(char board[9], int turnF, int key[9], int difficulty, int turn)
+char gameVScpu(char board[9], int turnF, int key[9], int difficulty, int turn, string message)
 {
 	int n = 0; // Random number variable for easy level
 
@@ -109,7 +166,6 @@ char gameVScpu(char board[9], int turnF, int key[9], int difficulty, int turn)
 	{
 		while (n < 10)
 		{
-			// sleep(1);
 			srand (time(NULL));
 			n = rand() % 8;
 			if (board[n] == ' ')
@@ -121,6 +177,7 @@ char gameVScpu(char board[9], int turnF, int key[9], int difficulty, int turn)
 	}
 	else if (difficulty == 2) //Standard
 	{
+		sleep(1);
 		vector<int> x; // X
 		vector<int> o; // O
 		vector<int> s; // Space
@@ -1009,12 +1066,13 @@ char gameVScpu(char board[9], int turnF, int key[9], int difficulty, int turn)
 	}
 
 	display(key);
+	cout << message;
 	display(board);
 
 	return board[9];
 }
 
-void game(int mode, int key[9], char board[9], int difficulty, int turn)
+void game(int mode, int key[9], char board[9], int difficulty, int turn, string message)
 {
 	// Initialize move variables
 	int p1, p2;
@@ -1041,20 +1099,23 @@ void game(int mode, int key[9], char board[9], int difficulty, int turn)
 					good = true;
 				}
 				else
-					cout << "error: The number you entered is invalid or the square is already filled.\n";
+				{
+					cin.clear(); 
+    				cin.ignore(16, '\n');
+					cout << "Error: The number you entered is invalid or the square is already filled.\n";
+				}
 			} while (!good);
 
 			if (turnF >= 3 && check(board, 'X'))
 			{
-				// system("clear");
+				system("clear");
 				cout << "Player X Wins!";
 				end = true;
 				go = false;
 				display(board);
 			}
-			else if (turnF >= 6)
+			else if ((turnF >= 6) || (mode == 2 && turnF >= 5))
 			{
-				// system("clear");
 				cout << "It's A Tie!\n";
 				end = true;
 				go = false;
@@ -1064,6 +1125,7 @@ void game(int mode, int key[9], char board[9], int difficulty, int turn)
 			{
 				good = false;
 				display(key);
+				cout << message;
 				display(board);
 				turnF++;
 			}
@@ -1079,7 +1141,6 @@ void game(int mode, int key[9], char board[9], int difficulty, int turn)
 			while (!good)
 			{
 				// Ask for move from player 2
-				cout << turnF << endl;
 				cout << "Player O, make your move: ";
 				cin  >> p2;
 
@@ -1090,20 +1151,23 @@ void game(int mode, int key[9], char board[9], int difficulty, int turn)
 					good = true;
 				}
 				else
-						cout << "error: The number you entered is invalid or the square is already filled.\n";
+				{
+					cin.clear(); 
+    				cin.ignore(16, '\n');
+					cout << "Error: The number you entered is invalid or the square is already filled.\n";
+				}
 			}
 
 			if (turnF >= 3 && check(board, 'O') && go)
 			{
-				// system("clear");
-				cout << turnF << endl;
+				system("clear");
 				cout << "Player O Wins!";
 				end = true;
 				display(board);
 			}
-			else if (turnF >= 6)
+			else if ((turnF >= 6) || (mode == 2 && turn == 1 && turnF >= 5))
 			{
-				// system("clear");
+				system("clear");
 				cout << "It's A Tie!\n";
 				end = true;
 				go = false;
@@ -1113,16 +1177,17 @@ void game(int mode, int key[9], char board[9], int difficulty, int turn)
 			{
 				good = false;
 				display(key);
+				cout << message;
 				display(board);
 			}
 		}
 		else if (go)
 		{
-			board[9] = gameVScpu(board, turnF, key, difficulty, turn);
+			board[9] = gameVScpu(board, turnF, key, difficulty, turn, message);
 
 			if (turnF >= 3 && check(board, 'O') && go)
 			{
-				// system("clear");
+				system("clear");
 				cout << "Computer Wins!";
 				end = true;
 				display(board);
@@ -1159,7 +1224,8 @@ void display(T arr)
 {
 	if (arr[0] == 1)
 	{
-		// system("clear");
+
+		system("clear"); 
 		cout << "\n\n\n                               KEY\n";
 	}
 	else
