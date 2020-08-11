@@ -32,18 +32,60 @@ int main()
 	int dieD; // Number of dice Defender has
 	int th;   // Threshhold variable
 	char ans; // The user answer if it's single mode
+	int go = false; // For validation
 
-	// Prompt user, which mode they want
-	cout << "What mode do you want?\n\n   1: Normal\n   2: Blitz\n\nSelect: ";
-	cin  >> mode;
+	do
+	{
+		// Prompt user, which mode they want
+		cout << "What mode do you want?\n\n   1: Normal\n   2: Blitz\n\nSelect: ";
+		cin  >> mode;
 
-	// Prompt the user for number of troops attacking
-	cout << "Number of troops Attacking: ";
-	cin  >> numA;
+		if (mode == 1 || mode == 2)
+				go = true;
+			else
+			{
+				cin.clear(); 
+    			cin.ignore(16, '\n');
+    			system("clear");
+				cout << "\nError: Please enter (1 or 2)\n";
+			}
+	} while (go == false);
 
-	// Prompt the user for number of troops defending
-	cout << "Number of troops Defending: ";
-	cin  >> numD;
+	go = false;
+	do
+	{
+		// Prompt the user for number of troops attacking
+		cout << "Number of troops Attacking: ";
+		cin  >> numA;
+
+		if (numA > 1)
+				go = true;
+			else
+			{
+				cin.clear(); 
+    			cin.ignore(16, '\n');
+    			system("clear");
+				cout << "\nError: Please enter a troop amount greater than 1\n";
+			}
+	} while (go == false);
+
+	go = false;
+	do
+	{
+		// Prompt the user for number of troops defending
+		cout << "Number of troops Defending: ";
+		cin  >> numD;
+
+		if (numD > 0)
+				go = true;
+			else
+			{
+				cin.clear(); 
+    			cin.ignore(16, '\n');
+    			system("clear");
+				cout << "\nError: Please enter a troop number greater than 0\n\nNumber of troops Attacking: " << numA << endl;
+			}
+	} while (go == false);
 
 	// Prompt the Attacker for desired threshhold if count is high and close
 	if ((numA > 50 && ((numA - numD) <= 20)) && mode == 2)
