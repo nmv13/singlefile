@@ -9,6 +9,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <ctime>
 
 using namespace std;
@@ -25,7 +26,7 @@ void result(int numA, int numD, int th);
 
 int main()
 {
-	int mode; // Whether the user wanrs Normal or Blitz
+	int mode; // Whether the user wants Normal or Blitz
 	int numA; // Number of troops Attacker has
 	int numD; // Number of troops Defender has
 	int dieA; // Number of dice Attacker has
@@ -122,6 +123,7 @@ int main()
 			}
 			else
 			{
+				sleep(1);
 				cout << "\nEnter 'a' to continue attacking, 'c' to ceasefire: ";
 				cin  >> ans;
 			}
@@ -137,7 +139,7 @@ int main()
 
 	// Initiate rolls : https://www.bitdegree.org/learn/random-number-generator-cpp
   	srand((unsigned) time(0));
-  	do
+  	do //????
   	{		
 		// Attacker has a max of 3 for 4+ people
 		dieA = numDie(numA, 'A');
@@ -220,6 +222,7 @@ void faceOff(int dieA, int dieD, int * numA, int * numD, int mode)
 **********************************************/
 void a1d1(int * numA, int * numD, int mode)
 {
+	srand((unsigned) time(0));
 	int rollD1 = 1 + (rand() % 6);
 	int rollA1 = 1 + (rand() % 6);
 
@@ -248,6 +251,7 @@ void a1d1(int * numA, int * numD, int mode)
 **********************************************/
 void a2d1(int * numA, int * numD, int mode)
 {
+	srand((unsigned) time(0));
 	int rollD1 = 1 + (rand() % 6);
 	int rollA1 = 1 + (rand() % 6);
 	int rollA2 = 1 + (rand() % 6);
@@ -255,7 +259,7 @@ void a2d1(int * numA, int * numD, int mode)
 	if (mode == 1)
 		cout << "Attacker = " << rollA1 << ", " << rollA2 << "\nDefender = " << rollD1 << endl;
 
-	if (rollD1 >= rollA1 || rollD1 >= rollA2)
+	if ((rollD1 >= rollA1) || (rollD1 >= rollA2))
 	{
 		*numA = *numA - 1;
 		if (mode == 1)
@@ -277,6 +281,7 @@ void a2d1(int * numA, int * numD, int mode)
 **********************************************/
 void a1d2(int * numA, int * numD, int mode)
 {
+	srand((unsigned) time(0));
 	int rollD1 = 1 + (rand() % 6);
 	int rollD2 = 1 + (rand() % 6);
 	int rollA1 = 1 + (rand() % 6);
@@ -285,7 +290,7 @@ void a1d2(int * numA, int * numD, int mode)
 		cout << "Attacker = " << rollA1 << "\nDefender = " << rollD1 << ", " << rollD2 << endl;
 
 
-	if (rollA1 < rollD1 && rollA1 < rollD2)
+	if ((rollA1 <= rollD1) || (rollA1 <= rollD2))
 	{
 		*numA = *numA - 1;
 		if (mode == 1)
@@ -307,6 +312,7 @@ void a1d2(int * numA, int * numD, int mode)
 **********************************************/
 void a3d1(int * numA, int * numD, int mode)
 {
+	srand((unsigned) time(0));
 	int rollD1 = 1 + (rand() % 6);
 	int rollA1 = 1 + (rand() % 6);
 	int rollA2 = 1 + (rand() % 6);
@@ -315,7 +321,7 @@ void a3d1(int * numA, int * numD, int mode)
 	if (mode == 1)
 		cout << "Attacker = " << rollA1 << ", " << rollA2 << ", " << rollA3 << "\nDefender = " << rollD1 << endl;
 
-	if (rollD1 >= rollA1 && rollD1 >= rollA2 && rollD1 >= rollA3)
+	if ((rollD1 >= rollA1) && (rollD1 >= rollA2) && (rollD1 >= rollA3))
 	{
 		*numA = *numA - 1;
 		if (mode == 1)
@@ -337,6 +343,7 @@ void a3d1(int * numA, int * numD, int mode)
 **********************************************/
 void a2d2(int * numA, int * numD, int mode)
 {
+	srand((unsigned) time(0));
 	int rollD1 = 1 + (rand() % 6);
 	int rollD2 = 1 + (rand() % 6);
 	int rollA1 = 1 + (rand() % 6);
@@ -372,13 +379,13 @@ void a2d2(int * numA, int * numD, int mode)
 	}
 
 
-	if (largeD >= largeA && smallD >= smallA)
+	if ((largeD >= largeA) && (smallD >= smallA))
 	{
 		*numA = *numA - 2;
 		if (mode == 1)
 			cout << "\nAttacker - 2\n";
 	}
-	else if (largeD >= largeA || smallD >= smallA)
+	else if ((largeD >= largeA) || (smallD >= smallA))
 	{
 		*numA = *numA - 1;
 		*numD = *numD - 1;
@@ -401,6 +408,7 @@ void a2d2(int * numA, int * numD, int mode)
 **********************************************/
 void a3d2(int * numA, int * numD, int mode)
 {
+	srand((unsigned) time(0));
 	int rollD1 = 1 + (rand() % 6);
 	int rollD2 = 1 + (rand() % 6);
 	int rollA1 = 1 + (rand() % 6);
@@ -424,7 +432,7 @@ void a3d2(int * numA, int * numD, int mode)
 	}
 
 	// Find attacker die values
-	if (rollA1 > rollA2 && rollA1 > rollA3)
+	if ((rollA1 > rollA2) && (rollA1 > rollA3))
 	{
 		largeA = rollA1;
 		if (rollA2 >= rollA3)
@@ -436,7 +444,7 @@ void a3d2(int * numA, int * numD, int mode)
 			smallA = rollA3;
 		}
 	}
-	else if (rollA2 > rollA1 && rollA2 > rollA3)
+	else if ((rollA2 > rollA1) && (rollA2 > rollA3))
 	{
 		largeA = rollA2;
 		if (rollA1 >= rollA3)
@@ -462,13 +470,13 @@ void a3d2(int * numA, int * numD, int mode)
 	}
 
 
-	if (largeD >= largeA && smallD >= smallA)
+	if ((largeD >= largeA) && (smallD >= smallA))
 	{
 		*numA = *numA - 2;
 		if (mode == 1)
 			cout << "\nAttacker - 2\n";
 	}
-	else if (largeD >= largeA || smallD >= smallA)
+	else if ((largeD >= largeA) || (smallD >= smallA))
 	{
 		*numA = *numA - 1;
 		*numD = *numD - 1;

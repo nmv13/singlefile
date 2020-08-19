@@ -703,7 +703,7 @@ char gameVScpu(char board[9], int turnF, int key[9], int difficulty, int turn, s
 				else if (board[0] == 'X' && board[6] == 'X' && board[5] == 'X')
 					board[7] = 'O';
 				else if (board[1] == 'X' && board[6] == 'X' && board[8] == 'X')
-					board[7] = 'O';
+					board[5] = 'O';
 				else if (board[2] == 'X' && board[6] == 'X' && board[5] == 'X')
 					board[8] = 'O';
 				else if (board[0] == 'X' && board[6] == 'X' && board[5] == 'X')
@@ -1116,6 +1116,7 @@ void game(int mode, int key[9], char board[9], int difficulty, int turn, string 
 			}
 			else if ((turnF >= 6) || (mode == 2 && turnF >= 5))
 			{
+				system("clear");
 				cout << "It's A Tie!\n";
 				end = true;
 				go = false;
