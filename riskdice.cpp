@@ -91,8 +91,22 @@ int main()
 	// Prompt the Attacker for desired threshhold if count is high and close
 	if ((numA > 50 && ((numA - numD) <= 20)) && mode == 2)
 	{
-		cout << "Minimal troop(s) ceasefire threshhold (1 - " << (numA - 50) << "): ";
-		cin  >> th;
+		go = false;
+		do
+		{
+			cout << "Minimal troop(s) ceasefire threshhold (1 - " << (numA - 50) << "): ";
+			cin  >> th;
+
+			if (th > 0 && th < (numA - 50))
+					go = true;
+				else
+				{
+					cin.clear(); 
+	    			cin.ignore(16, '\n');
+	    			system("clear");
+					cout << "\nError: Please enter a troop number as specified below\n\nNumber of troops Attacking: " << numA << "\nNumber of troops Defending: " << numD << endl;
+				}
+		} while (go == false);
 	}
 	else
 		th = 1;
@@ -123,7 +137,7 @@ int main()
 			}
 			else
 			{
-				sleep(1);
+				usleep(600000);
 				cout << "\nEnter 'a' to continue attacking, 'c' to ceasefire: ";
 				cin  >> ans;
 			}
@@ -138,18 +152,21 @@ int main()
 	}
 
 	// Initiate rolls : https://www.bitdegree.org/learn/random-number-generator-cpp
-  	srand((unsigned) time(0));
-  	do //????
+	srand((unsigned) time(0));
+  	do
   	{		
-		// Attacker has a max of 3 for 4+ people
+		// Attacker has a max of 3 die for 4+ people
 		dieA = numDie(numA, 'A');
 
-		// Defener has a max of 2 die for 2+ people
+		// Defender has a max of 2 die for 2+ people
 		dieD = numDie(numD, 'D');
 
 		// Battle
 		faceOff(dieA, dieD, &numA, &numD, mode);
-  		
+
+		cout << "\n. A = " << numA << " | D = " << numD;
+		usleep(600000);
+
   	} while (numD > 0 && numA > th);
 
   	result(numA, numD, th);
